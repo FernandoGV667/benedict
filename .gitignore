@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+venv/
+benedict_env/
+build/
+dist/
+.env
+.DS_Store
