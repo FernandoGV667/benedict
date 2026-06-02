@@ -207,6 +207,7 @@ def try_fetch_ytdlp_captions(
         "writeautomaticsub": True,
         "subtitlesformat": "vtt/srt",
         "nocheckcertificate": True,
+        "extractor_args": {"youtube": {"player_client": ["android", "web"]}},
     }
     
     if cookies_from_browser:
@@ -262,7 +263,7 @@ def download_audio(
         'no_warnings': True,
         'noplaylist': True,
         'hls_prefer_native': True,
-        'extractor_args': {'youtube': {'player_client': ['ios', 'web']}},
+        'extractor_args': {'youtube': {'player_client': ['android', 'web']}},
     }
     
     if cookies_from_browser:
@@ -309,7 +310,7 @@ def download_audio(
     else:
         # Fallback format expression
         dl_opts = {**base_opts, 
-                   'format': "18/bestaudio[ext=mp4][protocol!=m3u8]/bestaudio[acodec^=mp4a]"}
+                   'format': "bestaudio[ext=m4a]/bestaudio[acodec^=mp4a]/bestaudio/best"}
     
     # Download with error handling
     try:
@@ -317,7 +318,7 @@ def download_audio(
             info2 = ydl.extract_info(youtube_url, download=True)
     except yt_dlp.utils.DownloadError:
         # Robust fallback
-        dl_opts['format'] = "18/bestaudio[ext=mp4]/bestaudio"
+        dl_opts['format'] = "bestaudio/best"
         with yt_dlp.YoutubeDL(dl_opts) as ydl:
             info2 = ydl.extract_info(youtube_url, download=True)
     
